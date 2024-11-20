@@ -15,7 +15,8 @@ const {
   errorHandler,
 } = require("./middlewares/common/errorHandler");
 const loginRouter = require("./router/loginRouter");
-const userRouter = require("./router/userRouter");
+const userRouter = require("./router/usersRouter");
+const inboxRouter = require("./router/inboxRouter");
 
 // request parser
 app.use(express.json());
