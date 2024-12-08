@@ -32,6 +32,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 async function main() {
   try {
     await mongoose.connect(process.env.DATABASE_URL);
+
     app.listen(process.env.PORT, () => {
       console.log(`app listening on port ${process.env.port}`);
     });

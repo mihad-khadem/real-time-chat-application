@@ -1,27 +1,33 @@
 const createError = require("http-errors");
 
-// not-found handler
+// Not-found handler
 const notFoundHandler = (req, res, next) => {
   next(createError(404, "Your requested resource is not found"));
 };
-// default error handler
-const errorHandler = (err, req, res, next) => {
-  res.locals.error =
-    process.env.NODE_ENV === "development"
-      ? err
-      : {
-          message: err.message,
-        };
 
+// Default error handler
+const errorHandler = (err, req, res, next) => {
+  // Set error details based on environment
+  const errorDetails =
+    process.env.NODE_ENV === "development"
+      ? { message: err.message, stack: err.stack }
+      : { message: err.message };
+
+  // Set the response status
   res.status(err.status || 500);
-  if (!res.locals.html) {
-    // html response
+
+  // Check if the request expects HTML or JSON
+  if (req.accepts("html") && res.locals.html !== false) {
+    // Render the error page for HTML requests
     res.render("error", {
-      title: "error",
+      title: "Error",
+      error: errorDetails,
     });
   } else {
-    // json response
-    res.json(res.locals.error);
+    // Send a JSON response for API requests
+    res.json({
+      error: errorDetails,
+    });
   }
 };
 

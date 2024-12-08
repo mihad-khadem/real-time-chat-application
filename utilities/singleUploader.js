@@ -1,4 +1,6 @@
 const createHttpError = require("http-errors");
+const multer = require("multer");
+const path = require("path");
 
 const uploader = (
   subfolder_path,
@@ -7,7 +9,12 @@ const uploader = (
   error_message
 ) => {
   // upload folder
-  const UPLOADS_FOLDER = `${__dirname}/../public/uploads/${subfolder_path}`;
+  const UPLOADS_FOLDER = path.join(
+    __dirname,
+    "../public/uploads",
+    subfolder_path
+  );
+
   //   define upload storage
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,7 +40,8 @@ const uploader = (
       if (allowed_file_types.includes(file.mimetype)) {
         cb(null, true);
       } else {
-        cb(createHttpError(error_message));
+        console.error(`File upload rejected: ${file.mimetype}`);
+        cb(createHttpError(400, error_message), false);
       }
     },
   });

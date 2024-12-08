@@ -33,6 +33,11 @@ const peopleSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    // ! implement soft delete
+    // isDeleted: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   {
     timestamps: true,
