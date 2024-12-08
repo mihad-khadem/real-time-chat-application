@@ -47,7 +47,7 @@ async function addUser(req, res, next) {
     res.status(500).json({
       errors: {
         common: {
-          msg: "Unknown error occured!",
+          msg: "Unknown error occurred!",
         },
       },
     });
